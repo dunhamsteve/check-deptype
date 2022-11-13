@@ -4,9 +4,12 @@ import Data.List
 import Data.String
 import Data.String.Parser
 import System.REPL
+import Deriving.Show
 
 %hide Nat
 %language ElabReflection
+%default covering
+%hide Name
 
 Name = String
 Message = String
@@ -43,6 +46,9 @@ data Expr
 
 -- we need eq show..
 
+%hint
+showExpr : Show Expr
+showExpr = %runElab derive
 
 freshen : List Name -> Name -> Name
 freshen used x = if elem x used then freshen used $ x ++ "'" else x
@@ -498,7 +504,7 @@ data Toplevel = Define Name Expr | Example Expr
 
 data Output = ExampleOutput Expr
 Show Output where
-    show (ExampleOutput x) = "TODO implement show Expr"
+    show (ExampleOutput x) = show x
 
 toplevel : Ctx -> Toplevel -> M (List Output,Ctx)
 toplevel ctx (Define x e) =
@@ -583,7 +589,7 @@ parseDef = do
     body <- parseExpr
     let expr = foldr Lambda body args
     spaces
-    pure $ Define name (The expr type)
+    pure $ Define name (The type expr)
     
 parseTop : Parser Toplevel
 parseTop = parseDef <|> Example <$> parseExpr
@@ -607,4 +613,10 @@ step ctx txt = case step' ctx txt of
 
 
 main : IO ()
-main = replWith initCtx "> " step
+main = do
+    putStrLn "Tartlet\n"
+    putStrLn "  let two : Nat = add1 (add1 zero)"
+    putStrLn "  two\n"
+    putStrLn "  :q to quit\n"
+    replWith initCtx "> " step
+

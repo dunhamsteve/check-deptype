@@ -1,6 +1,6 @@
 package check
 depends = contrib
-main = Main
-executable = "app.js"
+main = Tartlet
+executable = "tartlet"
 opts = "-p contrib"
 sourcedir = "src"

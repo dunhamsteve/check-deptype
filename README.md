@@ -1,5 +1,5 @@
 
-This repository contains what I wrote while working through "Checking Dependent Types with Normalization by Evaluation: A Tutorial (Haskell Version)" by David Thrane Christiansen.  A good chunk of the work was done back in January when I was just learning Idris. This readme was written much later.
+This repository contains what I wrote while working through "Checking Dependent Types with Normalization by Evaluation: A Tutorial (Haskell Version)" by David Thrane Christiansen.  A good chunk of the work was done back in January when I was just learning Idris.
 
 It looks like I organized things: 
 
@@ -9,5 +9,6 @@ It looks like I organized things:
 - `src/Main5.idr` Includes the changes from section 5
 - `src/Tartlet.idr` Includes section 6 and the beginnings of a REPL
 
-2022-11 - Tartlet had be set aside and REPL code was half-written.  It is in place now, but there is a subtle issue and I need a bunch of Show implementations to debug.
+
+
 
