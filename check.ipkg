@@ -2,5 +2,5 @@ package check
 depends = contrib
 main = Main
 executable = "app.js"
-opts = "--cg node -p contrib"
+opts = "-p contrib"
 sourcedir = "src"

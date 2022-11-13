@@ -1,10 +1,12 @@
--- module Tartlet
+module Tartlet
 
 import Data.List
+import Data.String
 import Data.String.Parser
 import System.REPL
 
 %hide Nat
+%language ElabReflection
 
 Name = String
 Message = String
@@ -353,7 +355,7 @@ readBackNeutral (NIndAbsurd neu mot) =
 
 -- p 37
 unexpected : Ctx -> String -> Value -> M a
-
+unexpected ctx msg v = Left "\{msg} (TODO implementation Show Value)"
 
 -- $$\def\U{{\cal U}}\def\LA\Leftarrow\def\RA\Rightarrow$$
 
@@ -495,7 +497,8 @@ check ctx other t = do
 data Toplevel = Define Name Expr | Example Expr
 
 data Output = ExampleOutput Expr
---Eq Show
+Show Output where
+    show (ExampleOutput x) = "TODO implement show Expr"
 
 toplevel : Ctx -> Toplevel -> M (List Output,Ctx)
 toplevel ctx (Define x e) =
@@ -588,15 +591,18 @@ parseTop = parseDef <|> Example <$> parseExpr
 
 step' : Ctx -> String -> M (String,Ctx)
 step' ctx txt = do
-    (exp,_) <- parse parseTop txt | Left err => Left err
-    (out,ctx) <- toplevel exp
+    (exp,_) <- parse parseTop txt
+    (out,ctx) <- toplevel ctx exp
     let foo = unlines $ map show out
     Right (foo, ctx)
 
 
 
 step : Ctx -> String -> Maybe (String, Ctx)
-step ctx txt = ?X
+step ctx ":q" = Nothing
+step ctx txt = case step' ctx txt of
+    (Left msg) => Just ("Error: \{msg}\n", ctx)
+    (Right x) => Just x
 
 
 
